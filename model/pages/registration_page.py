@@ -17,7 +17,7 @@ class RegistrationPage:
         browser.element('#firstName').type(user.first_name)
         browser.element('#lastName').type(user.last_name)
         browser.element('#userEmail').type(user.email)
-        browser.element(f'[name=gender][value={user.gender}]').perform(command.js.click)
+        browser.element(f'[name=gender][value={user.gender.value}]').perform(command.js.click)
         browser.element('#userNumber').type(user.phone_number)
 
         browser.element('#dateOfBirthInput').click()
@@ -28,7 +28,7 @@ class RegistrationPage:
         browser.element(f'.react-datepicker__day--0{user.day_of_birth}').click()
 
         browser.element('#subjectsInput').type(user.subject).press_enter()
-        browser.all('[for^=hobbies-checkbox]').element_by(have.text(user.hobby)).click()
+        browser.all('[for^=hobbies-checkbox]').element_by(have.text(user.hobby.value)).click()
 
         browser.element('#uploadPicture').set_value(resource.path(user.avatar))
 
@@ -44,11 +44,11 @@ class RegistrationPage:
             have.exact_texts(
                 f'{user.first_name} {user.last_name}',
                 user.email,
-                user.gender,
+                user.gender.value,
                 user.phone_number,
                 f'{user.day_of_birth} {user.month_of_birth},{user.year_of_birth}',
                 user.subject,
-                user.hobby,
+                user.hobby.value,
                 user.avatar,
                 user.address,
                 f'{user.state} {user.city}',
