@@ -1,6 +1,6 @@
-import datetime
 from model.application import app
 from data.users import User, Gender, Hobby
+import datetime
 
 
 def test_complete_and_submit_form():
@@ -17,11 +17,11 @@ def test_complete_and_submit_form():
         address='Sadovaya, 14',
         state='Haryana',
         city='Karnal')
-
     app.registration.open()
+    app.left_panel.open_simple_registration_form()
 
     # WHEN
-    app.registration.register(user)
+    app.simple_registration.register(user)
 
     # THEN
-    app.registration.should_have_registered(user)
+    app.simple_registration.should_have_registered(user)
