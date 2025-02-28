@@ -1,3 +1,4 @@
+import datetime
 from model.pages.registration_page import RegistrationPage
 from data.users import User, Gender, Hobby
 
@@ -9,9 +10,7 @@ def test_complete_and_submit_form():
         email='fedor.bubnov_test@gmail.com',
         gender=Gender.MALE,
         phone_number='9990006666',
-        year_of_birth='1997',
-        month_of_birth='July',
-        day_of_birth='03',
+        date_of_birth=datetime.date(1997, 7, 3),
         subject='Biology',
         hobby=Hobby.SPORTS,
         avatar='avatar.jpg',

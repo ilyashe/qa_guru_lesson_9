@@ -22,10 +22,10 @@ class RegistrationPage:
 
         browser.element('#dateOfBirthInput').click()
         (browser.element('.react-datepicker__month-select').click().all('option').
-         element_by(have.text(user.month_of_birth)).click())
+         element_by(have.text(user.formatted_month())).click())
         (browser.element('.react-datepicker__year-select').click().all('option').
-         element_by(have.text(user.year_of_birth)).click())
-        browser.element(f'.react-datepicker__day--0{user.day_of_birth}').click()
+         element_by(have.text(user.formatted_year())).click())
+        browser.element(f'.react-datepicker__day--0{user.formatted_day()}').click()
 
         browser.element('#subjectsInput').type(user.subject).press_enter()
         browser.all('[for^=hobbies-checkbox]').element_by(have.text(user.hobby.value)).click()
@@ -46,7 +46,7 @@ class RegistrationPage:
                 user.email,
                 user.gender.value,
                 user.phone_number,
-                f'{user.day_of_birth} {user.month_of_birth},{user.year_of_birth}',
+                f'{user.formatted_day()} {user.formatted_month()},{user.formatted_year()}',
                 user.subject,
                 user.hobby.value,
                 user.avatar,
