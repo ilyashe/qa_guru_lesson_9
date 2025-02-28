@@ -1,56 +1,37 @@
-import os
-import tests
-from selene import browser, have, command
+from model.pages.registration_page import RegistrationPage
 
 
 def test_complete_and_submit_form():
-    browser.open('/automation-practice-form')
-
-    browser.driver.execute_script("$('#fixedban').remove()")
-    browser.driver.execute_script("$('footer').remove()")
-    # browser.driver.execute_script("document.body.style.zoom = '0.5'")
+    registration_page = RegistrationPage()
+    registration_page.open()
 
     # WHEN
-    browser.element('#firstName').type('Fedor')
-    browser.element('#lastName').type('Bubnov')
-    browser.element('#userEmail').type('fedor.bubnov_test@gmail.com')
-    browser.element('[name=gender][value=Male]').perform(command.js.click)
-    browser.element('#userNumber').type('9990006666')
+    registration_page.fill_first_name('Fedor')
+    registration_page.fill_last_name('Bubnov')
+    registration_page.fill_email('fedor.bubnov_test@gmail.com')
+    registration_page.select_gender('Male')
+    registration_page.fill_phone_number('9990006666')
+    registration_page.fill_date_of_birth(year='1997', month='July', day='03')
+    registration_page.select_subject('biology')
+    registration_page.select_subject('chem')
+    registration_page.select_hobby('Sports')
+    registration_page.select_hobby('Music')
+    registration_page.upload_avatar('avatar.jpg')
+    registration_page.fill_address('Sadovaya, 14')
+    registration_page.select_state('Haryana')
+    registration_page.select_city('Karnal')
+    registration_page.submit()
 
-    browser.element('#dateOfBirthInput').click()
-    browser.element('.react-datepicker__month-select').click().all('option').element_by(have.text('July')).click()
-    browser.element('.react-datepicker__year-select').click().all('option').element_by(have.text('1997')).click()
-    browser.element(f'.react-datepicker__day--0{'03'}').click()
-
-    browser.element('#subjectsInput').type('biology').press_enter()
-    browser.element('#subjectsInput').type('chem').press_enter()
-    browser.all('[for^=hobbies-checkbox]').element_by(have.text('Sports')).click()
-    browser.all('[for^=hobbies-checkbox]').element_by(have.text('Music')).click()
-
-    browser.element('#uploadPicture').set_value(
-        os.path.abspath(
-            os.path.join(os.path.dirname(tests.__file__), '../images/mayk-vazovski-s-litsom-salli-8.jpg')
-        )
-    )
-
-    browser.element('#currentAddress').type('Sadovaya, 14')
-    browser.element('#state').click().all('[id^=react-select-3-option]').element_by(have.text('Haryana')).click()
-    browser.element('#city').click().all('[id^=react-select-4-option]').element_by(have.text('Karnal')).click()
-
-    browser.element('#submit').click()
-
-    #THEN
-    browser.element('.table').all('td').even.should(
-        have.exact_texts(
-            'Fedor Bubnov',
-            'fedor.bubnov_test@gmail.com',
-            'Male',
-            '9990006666',
-            '03 July,1997',
-            'Biology, Chemistry',
-            'Sports, Music',
-            'mayk-vazovski-s-litsom-salli-8.jpg',
-            'Sadovaya, 14',
-            'Haryana Karnal',
-        )
-    )
+    # THEN
+    registration_page.should_registered_user_with(
+        full_name='Fedor Bubnov',
+        email='fedor.bubnov_test@gmail.com',
+        gender='Male',
+        phone='9990006666',
+        date_of_birth='03 July,1997',
+        subjects='Biology, Chemistry',
+        hobbies='Sports, Music',
+        file_name='avatar.jpg',
+        address='Sadovaya, 14',
+        state='Haryana',
+        city='Karnal')
