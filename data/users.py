@@ -1,6 +1,7 @@
 import dataclasses
 import enum
 import datetime
+from typing import List
 
 
 class Gender(enum.Enum):
@@ -15,6 +16,14 @@ class Hobby(enum.Enum):
     MUSIC = "Music"
 
 
+class Subject(enum.Enum):
+    ENGLISH = "english"
+    CHEMISTRY = "chemistry"
+    COMMERCE = "commerce"
+    ECONOMICS = "economics"
+    BIOLOGY = 'Biology'
+
+
 @dataclasses.dataclass
 class User:
     first_name: str
@@ -23,8 +32,8 @@ class User:
     gender: Gender
     phone_number: str
     date_of_birth: datetime.date
-    subject: str
-    hobby: Hobby
+    subjects: List[Subject]
+    hobbies: List[Hobby]
     avatar: str
     address: str
     state: str
@@ -39,3 +48,9 @@ class User:
 
     def formatted_day(self) -> str:
         return self.date_of_birth.strftime("%d")
+
+    def formatted_hobbies(self)-> str:
+        return ', '.join((hobby.value for hobby in self.hobbies))
+
+    def formatted_subjects(self)-> str:
+        return ', '.join((subject.value.capitalize() for subject in self.subjects))

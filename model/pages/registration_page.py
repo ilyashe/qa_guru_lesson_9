@@ -27,8 +27,11 @@ class RegistrationPage:
          element_by(have.text(user.formatted_year())).click())
         browser.element(f'.react-datepicker__day--0{user.formatted_day()}').click()
 
-        browser.element('#subjectsInput').type(user.subject).press_enter()
-        browser.all('[for^=hobbies-checkbox]').element_by(have.text(user.hobby.value)).click()
+        for subject in user.subjects:
+            browser.element('#subjectsInput').type(subject.value).press_enter()
+
+        for hobby in user.hobbies:
+            browser.all('[for^=hobbies-checkbox]').element_by(have.text(hobby.value)).click()
 
         browser.element('#uploadPicture').set_value(resource.path(user.avatar))
 
@@ -47,8 +50,8 @@ class RegistrationPage:
                 user.gender.value,
                 user.phone_number,
                 f'{user.formatted_day()} {user.formatted_month()},{user.formatted_year()}',
-                user.subject,
-                user.hobby.value,
+                user.formatted_subjects(),
+                user.formatted_hobbies(),
                 user.avatar,
                 user.address,
                 f'{user.state} {user.city}',
